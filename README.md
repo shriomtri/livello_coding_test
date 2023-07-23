@@ -1,70 +1,211 @@
-# API Routes Documentation
+# Typescript Node.js Express.js Backend Architecture
 
-## Introduction
+This project is a Typescript-based backend architecture for a Node.js Express.js application. It provides a structured and scalable foundation to build RESTful APIs with proper error handling, middleware, routing, database integration, and unit testing. The architecture follows best practices to ensure maintainability, modularity, and code reusability.
 
-This document provides an overview of the API routes and their functionalities for the User and Hobbie resources.
+## Project Overview
 
-## User Routes
+The project consists of the following components:
 
-### GET /users
+- **Routes**: The `routes` directory contains route handlers for different API endpoints. Each route handler is responsible for handling HTTP requests and responses for a specific resource (e.g., users or hobbies).
 
-- **Description**: Fetches all users from the database.
-- **Response**:
-  - **Status**: 200 OK
-  - **Body**: Array of user objects.
+- **Middleware**: The `middleware` directory includes custom middleware functions that can be used to perform tasks like authentication, logging, CORS handling, etc.
 
-### GET /users/:user_id/hobbies
+- **Database Integration**: The `database` directory contains schemas and repository files for interacting with the database. The architecture uses MongoDB as the database.
 
-- **Description**: Fetches a specific user with their associated hobbies based on the user_id.
-- **Parameters**:
-  - `user_id` (URL parameter): The ID of the user to fetch.
-- **Response**:
-  - **Status**: 200 OK
-  - **Body**: User object with an array of associated hobbies.
+- **Config**: The `config` directory holds configuration files for different environments (e.g., development, production). It also includes constants and configuration settings.
 
-### POST /users
+- **Core**: The `core` directory contains core components, such as error handling classes (`ApiError`, `NotFoundError`, `InternalError`) and API response classes (`SuccessResponse`, `ErrorResponse`).
 
-- **Description**: Creates a new user in the database.
-- **Request Body**:
-  - `name`: The name of the user to be created.
-- **Response**:
-  - **Status**: 200 OK
-  - **Body**: Newly created user object.
+- **Helpers**: The `helpers` directory includes utility functions and helper modules used throughout the application. It contains a validator module for input validation using `@hapi/joi`.
 
-### DELETE /users
+- **Test**: The `__tests__` directory contains unit test files for testing various components of the application, including routes, repository, and handlers.
 
-- **Description**: Deletes a user from the database based on the provided ID.
-- **Request Body**:
-  - `id`: The ID of the user to be deleted.
-- **Response**:
-  - **Status**: 200 OK
+## Routes
 
-## Hobbie Routes
+The routes define different API endpoints and their respective handlers. Let's explain the routes with examples:
 
-### POST /hobbies
+### Users Routes
 
-- **Description**: Creates a new hobbie and associates it with a user.
-- **Request Body**:
-  - `name`: The name of the hobbie to be created (alphanumeric, min 3, max 30 characters).
-  - `passion_lvl`: The passion level for the hobbie (LOW, MEDIUM, HIGH, VERY_HIGH).
-  - `user_id`: The ID of the user to associate the hobbie with.
-- **Response**:
-  - **Status**: 200 OK
+- **GET /users**: Fetches all users from the database.
 
-### DELETE /hobbies
+  Example:
+  ```http
+  GET /users
+  Response:
+  Status: 200 OK
 
-- **Description**: Deletes a hobbie and removes it from the associated user.
-- **Request Body**:
-  - `user_id`: The ID of the user associated with the hobbie.
-  - `hobbie_id`: The ID of the hobbie to be deleted.
-- **Response**:
-  - **Status**: 200 OK
+  [
+    {
+      "_id": "user_id1",
+      "name": "User 1"
+    },
+    {
+      "_id": "user_id2",
+      "name": "User 2"
+    }
+  ]
 
-## Test Cases
+- **GET /users/:user_id/hobbies**: Fetches a specific user with their associated hobbies based on the user_id.
 
-### Unit Tests
+  Example:
 
-We have written unit test cases for various components in the project to ensure their correctness and robustness. These tests are located in the `__tests__` directory. To run the unit tests, use the following command:
+  ```http
+
+  GET /users/user_id1/hobbies
+
+  Response:
+
+  json
+
+  Status: 200 OK
+
+  {
+    "_id": "user_id1",
+    "name": "User 1",
+    "hobbies": [
+      {
+        "_id": "hobbie_id1",
+        "name": "Reading",
+        "passion_lvl": "LOW",
+        "year": "2023-07-23T00:00:00.000Z"
+      },
+      {
+        "_id": "hobbie_id2",
+        "name": "Cooking",
+        "passion_lvl": "MEDIUM",
+        "year": "2023-07-23T00:00:00.000Z"
+      }
+    ]
+  }
+- **POST /users**: Creates a new user in the database.
+
+  Example:
+
+  ```http
+
+  POST /users
+
+  Body:
+  {
+    "name": "New User"
+  }
+
+  Response:
+
+  json
+
+  Status: 200 OK
+
+  {
+    "_id": "new_user_id",
+    "name": "New User"
+  }
+- **DELETE /users**: Deletes a user from the database based on the provided id.
+
+  Example:
+
+  ```http
+
+  DELETE /users
+
+  Body:
+  {
+    "id": "user_id1"
+  }
+
+  Response:
+
+  json
+
+  Status: 200 OK
+
+### Hobbies Routes
+
+- **POST /hobbies**: Creates a new hobbie and associates it with a user.
+
+    Example:
+
+  ```http
+
+  POST /hobbies
+
+  Body:
+  {
+    "name": "Gardening",
+    "passion_lvl": "HIGH",
+    "user_id": "user_id1"
+  }
+
+  Response:
+
+  json
+
+  Status: 200 OK
+
+- **DELETE /hobbies**: Deletes a hobbie and removes it from the associated user.
+
+  Example:
+
+  ```http
+
+  DELETE /hobbies
+
+  Body:
+  {
+    "user_id": "user_id1",
+    "hobbie_id": "hobbie_id1"
+  }
+
+  Response:
+
+  json
+
+  Status: 200 OK
+
+### File Structure
+
+The project follows a modular file structure to organize different components logically. Here's an overview of the main directories:
+
+    src: Contains the source code for the application.
+
+        - routes: Contains route handlers for different API endpoints.
+
+        - middleware: Includes custom middleware functions.
+
+        - database: Contains schemas and repository files for database integration.
+
+        - config: Holds configuration files.
+
+        - core: Contains core components for error handling and API responses.
+
+        - helpers: Includes utility functions and the validator module.
+
+    __tests__: Contains unit test files.
+
+    build: Contains the transpiled code when the Typescript code is compiled.
+
+    node_modules: Contains installed dependencies.
+
+    package.json: Lists the project's dependencies and scripts.
+
+    tsconfig.json: Configures the Typescript compiler options.
+
+### Handlers
+
+The handlers are functions defined in the routes directory to handle specific HTTP requests for each endpoint. They interact with the database through the corresponding repository files and use the core components for error handling and API responses.
+
+### Test Cases
+
+The project includes unit test cases written using Jest to test various components of the application. The test cases are located in the __tests__ directory. They cover route handlers, middleware, and repository functions to ensure their correctness and reliability.
+
+To run the unit tests, use the following command:
 
 ```bash
-npm test
+
+  npm test
+```
+
+The test cases help maintain code quality, catch bugs early, and provide a safety net when making changes or adding new features.
+Conclusion
+
+The Typescript Node.js Express.js Backend Architecture provides a solid foundation for building robust and scalable backend applications. It follows best practices, modular design, and includes test coverage to ensure the application's reliability. Developers can use this architecture as a starting point for various projects and extend it to meet specific requirements.
