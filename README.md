@@ -1,4 +1,4 @@
-# Typescript Node.js Express.js Backend Architecture
+# Typescript Node.js Express.js MongoDB
 
 This project is a Typescript-based backend architecture for a Node.js Express.js application. It provides a structured and scalable foundation to build RESTful APIs with proper error handling, middleware, routing, database integration, and unit testing. The architecture follows best practices to ensure maintainability, modularity, and code reusability.
 
