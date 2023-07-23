@@ -1,0 +1,1 @@
+export * from './hobbie_passion_enum'
