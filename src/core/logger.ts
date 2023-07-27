@@ -39,6 +39,6 @@ export default createLogger({
       format: format.combine(format.errors({ stack: true }), format.prettyPrint()),
     })
   ],
-  exceptionHandlers: [new DailyRotateFile(options.file)],
+  exceptionHandlers: [new DailyRotateFile(options.file), new transports.Console({ handleExceptions: true })],
   exitOnError: false, // do not exit on handled exceptions
 });

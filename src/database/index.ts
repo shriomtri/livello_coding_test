@@ -3,10 +3,11 @@ import Logger from "../core/logger";
 import {db, environment} from "../config";
 
 //Build the connection string
-const developmentDBURI = `mongodb://172.21.0.2:27017/${db.name}`
+const developmentDBURI = `mongodb://127.0.0.1:27017/${db.name}`
 const dbURI = `mongodb://${db.user}:${encodeURIComponent(db.password)}@${db.host}:${db.port}/${db.name}`
 
 const options = {
+    
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -20,9 +21,11 @@ const options = {
 
 Logger.debug(dbURI)
 
+const DB_CONNECTION_STRING = (environment === 'development') ? developmentDBURI : dbURI;
+console.log(DB_CONNECTION_STRING);
 //Create the databse connection
 mongoose
-    .connect((environment === 'development') ? developmentDBURI : dbURI, options)
+    .connect(DB_CONNECTION_STRING, options)
     .then(() => {
         Logger.info('Mongoose connection done')
     })

@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { extendBaseSchema } from './base_schema';
 import { IUser } from '../interface';
-import { HOBBIE_COLLECTION_NAME } from './hobbie_schema';
+import { HOBBIE_COLLECTION_NAME, HOBBIE_DOCUMENT_NAME } from './hobbie_schema';
 
 export const USER_COLLECTION_NAME = 'users';
 export const USER_DOCUMENT_NAME = 'user';
@@ -12,11 +12,11 @@ const UserSchema = extendBaseSchema(
     {
       name: {
         type: String,
-        required: true,
+        required: true
       },
       hobbies: [{
         type: Schema.Types.ObjectId,
-        ref: HOBBIE_COLLECTION_NAME,
+        ref: HOBBIE_DOCUMENT_NAME,
       }],
     },
     {

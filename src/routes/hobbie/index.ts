@@ -10,7 +10,7 @@ const router = express.Router();
 
 // Route to create a new hobbie and associate it with a user
 router.post(
-  '/',
+  '/:user_id',
   validator(hobbie_validation_schema.create_hobbie_body, ValidationSource.BODY),
   validator(hobbie_validation_schema.create_hobbie_param, ValidationSource.PARAM),
   asyncHandler(async (req: Request, res: Response, _next: NextFunction) => {

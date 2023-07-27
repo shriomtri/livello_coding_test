@@ -4,8 +4,8 @@ import { EHobbiePassion } from '../../database/enum';
 export default {
   // Validation schema for POST '/'
   create_hobbie_body: Joi.object().keys({
-    name: Joi.string().alphanum().min(3).max(30).required(),
-    passion_lvl: Joi.string().valid([
+    name: Joi.string().min(3).max(30).required(),
+    passion_lvl: Joi.string().valid(...[
       EHobbiePassion.LOW,
       EHobbiePassion.MEDIUM,
       EHobbiePassion.HIGH,

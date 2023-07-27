@@ -17,7 +17,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true, parameterLimit: 5000
 app.use(cors({ origin: corsUrl, optionsSuccessStatus: 200 }));
 
 // Routes
-app.use('api/v1', routes);
+app.use('/api/v1', routes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => next(new NotFoundError()));
